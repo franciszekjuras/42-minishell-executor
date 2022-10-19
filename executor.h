@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:08:33 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/14 14:13:44 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/19 22:33:44 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 #include <interface/line.h>
 
-int	xtr_execute(t_line *line);
+int	minish_execute(t_line line);
 
 #endif
