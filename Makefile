@@ -1,12 +1,9 @@
 NAME = libexecutor.a
 
 FILES = \
-	executor
+	executor exec_data childs app app_priv utils
 
-HEADERS = \
-	executor
-
-HFILES = $(HEADERS:%=%.h)
+HFILES = $(FILES:%=%.h)
 OFILES = $(FILES:%=%.o)
 
 CFLAGS = -Wall -Wextra -Werror
