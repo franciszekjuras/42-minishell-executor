@@ -1,7 +1,8 @@
 NAME = libexecutor.a
 
 FILES = \
-	executor exec_data childs app app_priv utils
+	executor exec_data childs app app_priv utils \
+	../interface/line
 
 HFILES = $(FILES:%=%.h)
 OFILES = $(FILES:%=%.o)

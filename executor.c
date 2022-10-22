@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/20 20:20:24 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/22 20:14:16 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int minish_execute(t_line line)
 	childs_update(&app.childs,
 		app_exec(&app, line.progs[0].args, 0, 1));
 	app_free(&app);
+	line_free(line);
 	return (childs_wait_until_all_exit(&app.childs));
 }
 

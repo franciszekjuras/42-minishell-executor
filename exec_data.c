@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/20 20:23:29 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/22 20:26:09 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,5 @@ pid_t	exec_data_clean_up(t_exec_data *exec_data)
 {
 	if (exec_data->prog_path != NULL)
 		free(exec_data->prog_path);
-	if (exec_data->args != NULL)
-		ft_freeparr((void **)exec_data->args);
 	return (-1);
 }
