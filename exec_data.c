@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/22 20:26:09 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/24 18:13:24 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,37 @@
 #include <libft/libft.h>
 #include "exec_data.h"
 
-void	exec_data_init(t_exec_data *exec_data, int fd_in, int fd_out)
+void	exec_data_init(t_exec_data *exec_data)
 {
+	exec_data->ready = 0;
 	exec_data->prog_path = NULL;
 	exec_data->args = NULL;
-	exec_data->fd_in = fd_in;
-	exec_data->fd_out = fd_out;
+	exec_data->fd_in = -1;
+	exec_data->fd_out = -1;
+	exec_data->fds_end = 0;
 }
 
-pid_t	exec_data_clean_up(t_exec_data *exec_data)
+void	exec_data_track_fd(t_exec_data *exec_data, int fd)
 {
-	if (exec_data->prog_path != NULL)
-		free(exec_data->prog_path);
-	return (-1);
+	if (fd >= 0)
+		exec_data->fds[exec_data->fds_end++] = fd;
+}
+
+void	exec_data_close_tracked_fds(t_exec_data *exec_data)
+{
+	int	i;
+
+	i = 0;
+	while (i < exec_data->fds_end)
+		close(exec_data->fds[i++]);
+	exec_data->fds_end = 0;
+}
+
+void	exec_data_free(t_exec_data *exec_data)
+{
+	free(exec_data->prog_path);
+	exec_data->prog_path = NULL;
+	exec_data->args = NULL;
+	exec_data_close_tracked_fds(exec_data);
+	exec_data->ready = 0;
 }

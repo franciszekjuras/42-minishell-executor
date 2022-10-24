@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:47:42 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/20 19:47:15 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/24 18:15:45 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 # define APP_H
 
 # include <sys/types.h>
+# include <interface/line.h>
+# include "exec_data.h"
 # include "childs.h"
 
 typedef struct s_app
 {
 	char		*name;
 	char		**path;
-	int			fds[4];
-	int			fds_end;
 	t_childs	childs;
 }	t_app;
 
 void	app_init(t_app *app, char *name);
 int		app_free(t_app *app);
-int		app_pipe(t_app *app, int pipe_fds[2]);
-int		app_open(t_app *app, char *file, int flags);
-pid_t	app_exec(t_app *app, char **args, int fd_in, int fd_out);
+// int		app_pipe(t_app *app, int pipe_fds[2]);
+// int		app_open(t_app *app, char *file, int flags);
+void	app_fill_exec_data(t_app *app, t_exec_data *exec_data, t_prog prog);
+void	app_exec(t_app *app, t_exec_data *exec_data);
 
 #endif
