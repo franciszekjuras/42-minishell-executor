@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/24 18:12:47 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/26 22:18:46 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	minish_execute(t_line line)
 {
 	t_exec_data	exec_data;
 	t_app		app;
-	int		retval;
+	int			retval;
 
 	app_init(&app, "minish");
 	exec_data_init(&exec_data);
@@ -52,5 +52,6 @@ int	minish_execute(t_line line)
 	exec_data_free(&exec_data);
 	retval = childs_wait_until_all_exit(&app.childs);
 	app_free(&app);
+	line_free(line);
 	return (retval);
 }
