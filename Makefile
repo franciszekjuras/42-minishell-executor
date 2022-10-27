@@ -4,8 +4,12 @@ FILES = \
 	executor exec_data childs app app_priv utils \
 	../interface/line
 
-HFILES = $(FILES:%=%.h)
-OFILES = $(FILES:%=%.o)
+HFILES := $(FILES:%=%.h)
+
+FILES += \
+	app_priv2 exec_data2
+
+OFILES := $(FILES:%=%.o)
 
 CFLAGS = -Wall -Wextra -Werror
 

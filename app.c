@@ -6,16 +6,11 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/26 22:19:06 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/27 23:05:55 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#include <fcntl.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include <libft/libft.h>
 #include <interface/line.h>
 #include "app.h"
@@ -37,65 +32,16 @@ int	app_free(t_app *app)
 	return (0);
 }
 
-// int	app_pipe(t_app *app, int pipe_fds[2])
-// {
-// 	if (pipe(pipe_fds) == 0)
-// 	{
-// 		app_track_fd(app, pipe_fds[0]);
-// 		app_track_fd(app, pipe_fds[1]);
-// 		return (0);
-// 	}
-// 	else
-// 	{
-// 		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
-// 		return (-1);
-// 	}
-// }
-
-int	app_open(t_app *app, t_exec_data *exec_data, char *file, int mode)
+void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line)
 {
-	int	fd;
+	int	i;
 
-	fd = -1;
-	if (mode == APP_OPEN_IN)
-		fd = open(file, O_RDONLY);
-	else if (mode == APP_OPEN_OUT)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else
-		errno = EPERM;
-	if (fd < 0)
+	i = 0;
+	while (i < line.size)
 	{
-		ft_dprintf(2, "%s: %s: %s\n", app->name, file, strerror(errno));
-		return (-1);
+		app_pipe_exec_data_arr(app, exec_data_arr, i, line.size);
+		app_fill_exec_data(app, &exec_data_arr[i], line.progs[i]);
+		app_exec(app, &exec_data_arr[i]);
+		++i;
 	}
-	exec_data_track_fd(exec_data, fd);
-	return (fd);
-}
-
-void	app_fill_exec_data(t_app *app, t_exec_data *exec_data, t_prog prog)
-{
-	if (prog.in_redir.path != NULL)
-		exec_data->fd_in = app_open(app, exec_data, prog.in_redir.path,
-				APP_OPEN_IN);
-	if (prog.out_redir.path != NULL)
-		exec_data->fd_out = app_open(app, exec_data, prog.out_redir.path,
-				APP_OPEN_OUT);
-	if (exec_data->fd_in < 0 || exec_data->fd_out < 0)
-		return ;
-	exec_data->args = prog.args;
-	exec_data->prog_path = app_resolve_prog_path(app, exec_data->args[0]);
-	if (exec_data->prog_path == NULL)
-		return ;
-	exec_data->ready = 1;
-}
-
-void	app_exec(t_app *app, t_exec_data *exec_data)
-{
-	pid_t		child;
-
-	child = fork();
-	if (child == 0)
-		app_exec_child_side(app, exec_data);
-	exec_data_free(exec_data);
-	childs_update(&app->childs, child);
 }

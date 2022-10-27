@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_data.h                                        :+:      :+:    :+:   */
+/*   exec_data2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/27 22:49:43 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/27 22:50:18 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_DATA_H
-# define EXEC_DATA_H
+#include <stdlib.h>
+#include <libft/libft.h>
+#include "exec_data.h"
 
-# include <sys/types.h>
-
-typedef struct s_exec_data
+t_exec_data	*exec_data_arr_init(int size)
 {
-	char	*prog_path;
-	char	**args;
-	int		fd_in;
-	int		fd_out;
-	int		fds[4];
-	int		fds_end;
-	int		ready;
-}	t_exec_data;
+	t_exec_data	*exec_data_arr;
+	int			i;
 
-void		exec_data_init(t_exec_data *exec_data);
-void		exec_data_track_fd(t_exec_data *exec_data, int fd);
-void		exec_data_close_tracked_fds(t_exec_data *exec_data);
-void		exec_data_free(t_exec_data *exec_data);
-t_exec_data	*exec_data_arr_init(int size);
-void		exec_data_arr_free(t_exec_data *exec_data_arr, int size);
+	exec_data_arr = ft_calloc(size, sizeof(t_exec_data));
+	i = 0;
+	while (i < size)
+		exec_data_init(&exec_data_arr[i++]);
+	return (exec_data_arr);
+}
 
-#endif
+void	exec_data_arr_free(t_exec_data *exec_data_arr, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+		exec_data_free(&exec_data_arr[i++]);
+	free(exec_data_arr);
+}

@@ -6,11 +6,13 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/24 18:17:20 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/27 22:43:54 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+#include <fcntl.h>
+#include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -54,4 +56,39 @@ void	app_exec_child_side(t_app *app, t_exec_data *exec_data)
 	exec_data_free(exec_data);
 	app_free(app);
 	exit(127);
+}
+
+// int	app_pipe(t_app *app, int pipe_fds[2])
+// {
+// 	if (pipe(pipe_fds) == 0)
+// 	{
+// 		app_track_fd(app, pipe_fds[0]);
+// 		app_track_fd(app, pipe_fds[1]);
+// 		return (0);
+// 	}
+// 	else
+// 	{
+// 		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
+// 		return (-1);
+// 	}
+// }
+
+int	app_open(t_app *app, t_exec_data *exec_data, char *file, int mode)
+{
+	int	fd;
+
+	fd = -1;
+	if (mode == APP_OPEN_IN)
+		fd = open(file, O_RDONLY);
+	else if (mode == APP_OPEN_OUT)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		errno = EPERM;
+	if (fd < 0)
+	{
+		ft_dprintf(2, "%s: %s: %s\n", app->name, file, strerror(errno));
+		return (-1);
+	}
+	exec_data_track_fd(exec_data, fd);
+	return (fd);
 }

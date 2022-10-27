@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:47:42 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/26 21:06:27 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/27 22:39:08 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ typedef struct s_app
 
 void	app_init(t_app *app, char *name);
 int		app_free(t_app *app);
-// int		app_pipe(t_app *app, int pipe_fds[2]);
-int		app_open(t_app *app, t_exec_data *exec_data, char *file, int mode);
-void	app_fill_exec_data(t_app *app, t_exec_data *exec_data, t_prog prog);
-void	app_exec(t_app *app, t_exec_data *exec_data);
+void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line);
 
 #endif
