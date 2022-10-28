@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/28 14:14:31 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/28 14:47:04 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line)
 	i = 0;
 	while (i < line.size)
 	{
-		app_pipe_exec_data_arr(app, exec_data_arr, i, line.size);
-		app_fill_exec_data(app, &exec_data_arr[i], line.progs[i]);
+		if (app_pipe_exec_data_arr(app, exec_data_arr, i, line.size) == 0)
+			app_fill_exec_data(app, &exec_data_arr[i], line.progs[i]);
 		app_exec(app, &exec_data_arr[i]);
 		exec_data_free(&exec_data_arr[i]);
 		++i;

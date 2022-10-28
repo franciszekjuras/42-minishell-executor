@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/27 22:43:54 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/28 15:56:42 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,25 @@ void	app_exec_child_side(t_app *app, t_exec_data *exec_data)
 	exit(127);
 }
 
-// int	app_pipe(t_app *app, int pipe_fds[2])
-// {
-// 	if (pipe(pipe_fds) == 0)
-// 	{
-// 		app_track_fd(app, pipe_fds[0]);
-// 		app_track_fd(app, pipe_fds[1]);
-// 		return (0);
-// 	}
-// 	else
-// 	{
-// 		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
-// 		return (-1);
-// 	}
-// }
+int	app_pipe(t_app *app,
+	t_exec_data *exec_data_in, t_exec_data *exec_data_out)
+{
+	int	pipe_fds[2];
+
+	if (pipe(pipe_fds) == 0)
+	{
+		exec_data_track_fd(exec_data_in, pipe_fds[1]);
+		exec_data_in->fd_out = pipe_fds[1];
+		exec_data_track_fd(exec_data_out, pipe_fds[0]);
+		exec_data_out->fd_in = pipe_fds[0];
+		return (0);
+	}
+	else
+	{
+		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
+		return (-1);
+	}
+}
 
 int	app_open(t_app *app, t_exec_data *exec_data, char *file, int mode)
 {
