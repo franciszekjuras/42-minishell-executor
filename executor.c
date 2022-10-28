@@ -6,10 +6,11 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/27 23:06:55 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/28 14:21:29 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <interface/line.h>
 #include "app.h"
 #include "childs.h"
@@ -24,7 +25,7 @@ int	minish_execute(t_line line)
 	app_init(&app, "minish");
 	exec_data_arr = exec_data_arr_init(line.size);
 	app_exec_arr(&app, exec_data_arr, line);
-	exec_data_arr_free(exec_data_arr, line.size);
+	free(exec_data_arr);
 	retval = childs_wait_until_all_exit(&app.childs);
 	app_free(&app);
 	line_free(line);

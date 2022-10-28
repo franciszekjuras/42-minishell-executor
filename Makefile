@@ -7,7 +7,7 @@ FILES = \
 HFILES := $(FILES:%=%.h)
 
 FILES += \
-	app_priv2 exec_data2
+	app_priv2
 
 OFILES := $(FILES:%=%.o)
 

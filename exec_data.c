@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/24 18:13:24 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/10/28 14:19:46 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,16 @@ void	exec_data_free(t_exec_data *exec_data)
 	exec_data->args = NULL;
 	exec_data_close_tracked_fds(exec_data);
 	exec_data->ready = 0;
+}
+
+t_exec_data	*exec_data_arr_init(int size)
+{
+	t_exec_data	*exec_data_arr;
+	int			i;
+
+	exec_data_arr = ft_calloc(size, sizeof(t_exec_data));
+	i = 0;
+	while (i < size)
+		exec_data_init(&exec_data_arr[i++]);
+	return (exec_data_arr);
 }
