@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/27 22:49:43 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/02 12:00:49 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_exec_data
 	char	**args;
 	int		fd_in;
 	int		fd_out;
-	int		fds[4];
+	int		fds[5];
 	int		fds_end;
 	int		ready;
 }	t_exec_data;

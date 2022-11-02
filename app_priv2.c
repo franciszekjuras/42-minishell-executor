@@ -6,13 +6,16 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/28 15:57:13 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/02 15:15:42 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
+#include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <interface/line.h>
+#include <libft/libft.h>
 #include "exec_data.h"
 #include "app_priv.h"
 #include "app.h"
@@ -64,11 +67,17 @@ void	app_exec(t_app *app, t_exec_data *exec_data)
 
 	if (!exec_data->ready)
 	{
+		app->builtin_last_retval = 127;
 		childs_update(&app->childs, -1);
 		return ;
 	}
 	child = fork();
 	if (child == 0)
 		app_exec_child_side(app, exec_data);
+	if (child < 0)
+	{
+		app->builtin_last_retval = 127;
+		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
+	}
 	childs_update(&app->childs, child);
 }

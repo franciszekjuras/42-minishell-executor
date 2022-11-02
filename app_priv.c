@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/10/28 15:56:42 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/02 12:19:35 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ int	app_pipe(t_app *app,
 
 	if (pipe(pipe_fds) == 0)
 	{
+		exec_data_track_fd(exec_data_in, pipe_fds[0]);
 		exec_data_track_fd(exec_data_in, pipe_fds[1]);
 		exec_data_in->fd_out = pipe_fds[1];
 		exec_data_track_fd(exec_data_out, pipe_fds[0]);
+		exec_data_track_fd(exec_data_out, pipe_fds[1]);
 		exec_data_out->fd_in = pipe_fds[0];
 		return (0);
 	}
