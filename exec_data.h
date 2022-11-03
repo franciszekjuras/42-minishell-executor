@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 12:00:49 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/03 19:29:16 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include <sys/types.h>
 
-typedef struct s_exec_data
+typedef struct s_exec_data	t_exec_data;
+
+struct s_exec_data
 {
 	char	*prog_path;
 	char	**args;
@@ -24,7 +26,9 @@ typedef struct s_exec_data
 	int		fds[5];
 	int		fds_end;
 	int		ready;
-}	t_exec_data;
+	int		is_builtin;
+	int		(*builtin_fun)(const char *, t_exec_data *);
+};
 
 void		exec_data_init(t_exec_data *exec_data);
 void		exec_data_track_fd(t_exec_data *exec_data, int fd);

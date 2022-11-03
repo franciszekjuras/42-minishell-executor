@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 12:19:35 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/02 17:21:37 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void	app_exec_child_side(t_app *app, t_exec_data *exec_data)
 	exec_data_free(exec_data);
 	app_free(app);
 	exit(127);
+}
+
+void	app_exec_builtin(t_app *app, t_exec_data *exec_data)
+{
+	app->builtin_last_retval = exec_data->builtin_fun(app->name, exec_data);
 }
 
 int	app_pipe(t_app *app,

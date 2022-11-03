@@ -2,6 +2,7 @@ NAME = libexecutor.a
 
 FILES = \
 	executor exec_data childs app app_priv utils \
+	builtins \
 	../interface/line
 
 HFILES := $(FILES:%=%.h)

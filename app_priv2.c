@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 15:15:42 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/02 17:19:58 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <interface/line.h>
 #include <libft/libft.h>
+#include "builtins.h"
 #include "exec_data.h"
 #include "app_priv.h"
 #include "app.h"
@@ -40,10 +41,16 @@ void	app_fill_exec_data(t_app *app, t_exec_data *exec_data, t_prog prog)
 	if (fill_redirs(app, exec_data, prog) < 0)
 		return ;
 	exec_data->args = prog.args;
-	exec_data->prog_path = app_resolve_prog_path(app, exec_data->args[0]);
-	if (exec_data->prog_path == NULL)
+	exec_data->builtin_fun = builtin_resolve(exec_data->args[0]);
+	if (exec_data->builtin_fun != NULL)
+	{
+		exec_data->is_builtin = 1;
+		exec_data->ready = 1;
 		return ;
-	exec_data->ready = 1;
+	}
+	exec_data->prog_path = app_resolve_prog_path(app, exec_data->args[0]);
+	if (exec_data->prog_path != NULL)
+		exec_data->ready = 1;
 }
 
 int	app_pipe_exec_data_arr(t_app *app,
@@ -65,9 +72,12 @@ void	app_exec(t_app *app, t_exec_data *exec_data)
 {
 	pid_t		child;
 
-	if (!exec_data->ready)
+	if (!exec_data->ready || exec_data->is_builtin)
 	{
-		app->builtin_last_retval = 127;
+		if (!exec_data->ready)
+			app->builtin_last_retval = 127;
+		else
+			app_exec_builtin(app, exec_data);
 		childs_update(&app->childs, -1);
 		return ;
 	}
