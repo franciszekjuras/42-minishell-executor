@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 17:21:37 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/04 14:43:06 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*app_resolve_prog_path(t_app *app, char *prog)
 	if (ft_strchr(prog, '/') != NULL)
 		return (ft_strdup(prog));
 	candidate = NULL;
-	path = app->path;
+	path = app->env->path;
 	while (*path != NULL)
 	{
 		if (check_if_path_is_executable(*path, prog, &candidate))

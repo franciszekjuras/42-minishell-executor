@@ -6,23 +6,31 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 15:14:38 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/04 14:43:46 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <interface/env.h>
 #include <interface/line.h>
 #include "app.h"
 #include "childs.h"
+#include "envops.h"
 #include "exec_data.h"
+#include "lineops.h"
 
-int	minish_execute(t_line line)
+void	minish_env_init(t_env *env, char **parent_environ)
+{
+	env_init(env, parent_environ);
+}
+
+int	minish_execute(t_env *env, t_line line)
 {
 	t_exec_data	*exec_data_arr;
 	t_app		app;
 	int			retval;
 
-	app_init(&app, "minish");
+	app_init(&app, env, "minish");
 	exec_data_arr = exec_data_arr_init(line.size);
 	app_exec_arr(&app, exec_data_arr, line);
 	free(exec_data_arr);

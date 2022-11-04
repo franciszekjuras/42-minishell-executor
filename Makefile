@@ -2,10 +2,11 @@ NAME = libexecutor.a
 
 FILES = \
 	executor exec_data childs app app_priv utils \
-	builtins \
-	../interface/line
+	builtins lineops envops\
 
 HFILES := $(FILES:%=%.h)
+
+HFILES += ../interface/line.h
 
 FILES += \
 	app_priv2

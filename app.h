@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:47:42 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 15:07:13 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/04 14:42:04 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define APP_H
 
 # include <sys/types.h>
+# include <interface/env.h>
 # include <interface/line.h>
 # include "exec_data.h"
 # include "childs.h"
@@ -24,13 +25,13 @@
 typedef struct s_app
 {
 	char		*name;
-	char		**path;
+	t_env		*env;
 	t_childs	childs;
 	int			builtin_last_retval;
 }	t_app;
 
-void	app_init(t_app *app, char *name);
-int		app_free(t_app *app);
+void	app_init(t_app *app, t_env *env, const char *name);
+void	app_free(t_app *app);
 void	app_exec_arr(t_app *app, t_exec_data *exec_data_arr, t_line line);
 
 #endif

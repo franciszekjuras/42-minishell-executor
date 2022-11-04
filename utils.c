@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/09/29 18:23:32 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/04 15:39:05 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #include <unistd.h>
 #include <libft/libft.h>
 
-extern char	**environ;
-
-char	**extract_path_arr_from_env(void)
+char	**extract_path_arr_from_env(char **environ)
 {
 	int	i;
 
