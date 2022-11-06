@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 18:28:22 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 20:21:57 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ t_bltin_fun	builtin_resolve(const char *progname)
 		return (builtin_echo);
 	else if (strcmp(progname, "env") == 0)
 		return (builtin_env);
+	else if (strcmp(progname, "export") == 0)
+		return (builtin_export);
+	else if (strcmp(progname, "unset") == 0)
+		return (builtin_unset);
 	else
 		return (NULL);
 }
@@ -54,11 +58,47 @@ int	builtin_echo(t_app *app, t_exec_data *ed)
 
 int	builtin_env(t_app *app, t_exec_data *ed)
 {
+	int	i;
+
 	if (ed->args[1] != NULL)
 	{
 		ft_dprintf(2, "%s: %s: %s\n", app->name, ed->args[0], strerror(EINVAL));
 		return (EINVAL);
 	}
-	env_dprintf_vars(app->env, ed->fd_out, "%s\n");
+	i = 0;
+	while (app->env->vars[i] != NULL)
+	{
+		ft_dprintf(ed->fd_out, "%s\n", app->env->vars[i]);
+		++i;
+	}
+	return (0);
+}
+
+static int	builtin_export_noarg(t_app *app)
+{
+	(void)app;
+	return (0);
+}
+
+int	builtin_export(t_app *app, t_exec_data *ed)
+{
+	int	i;
+
+	if (ed->args[1] == NULL)
+		return (builtin_export_noarg(app));
+	i = 1;
+	while (ed->args[i] != NULL)
+		env_vars_push(app->env, ed->args[i++]);
+	return (0);
+}
+
+
+int	builtin_unset(t_app *app, t_exec_data *ed)
+{
+	int	i;
+
+	i = 0;
+	while (ed->args[i] != NULL)
+		env_vars_remove(app->env, ed->args[i++]);
 	return (0);
 }

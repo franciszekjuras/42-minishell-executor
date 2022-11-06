@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 16:27:37 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 20:37:50 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,10 @@
 #include <interface/env.h>
 #include "envops.h"
 
-int	env_vars_size(t_env *env)
+int	env_vars_find_l(t_env *env, char *var, int var_name_len)
 {
 	int		i;
 
-	i = 0;
-	while (env->vars[i] != NULL)
-		++i;
-	return (i);
-}
-
-int	env_find_var(t_env *env, char *var)
-{
-	int		var_name_len;
-	char	*var_name_end;
-	int		i;
-
-	var_name_end = ft_strchr(var, '=');
-	if (var_name_end == NULL)
-		return (-1);
-	var_name_len = var_name_end - var;
 	i = 0;
 	while (env->vars[i] != NULL)
 	{
@@ -45,14 +29,64 @@ int	env_find_var(t_env *env, char *var)
 	return (i);
 }
 
-void	env_dprintf_vars(t_env *env, int fd, const char *format)
+static void	vars_move(char **src, char **dest)
 {
 	int	i;
 
 	i = 0;
-	while (env->vars[i] != NULL)
+	while (src[i] != NULL)
 	{
-		ft_dprintf(fd, format, env->vars[i]);
+		dest[i] = src[i];
 		++i;
 	}
+	dest[i] = NULL;
+	free(src);
+}
+
+void	env_vars_push(t_env *env, char *var)
+{
+	int		pos;
+	char	**new_vars;
+
+	pos = env_vars_find_l(env, var, ft_strchr(var, '=') - var);
+	if (pos < 0)
+		return ;
+	if (env->vars[pos] != NULL)
+	{
+		free(env->vars[pos]);
+		env->vars[pos] = ft_strdup(var);
+	}
+	else
+	{
+		new_vars = ft_calloc(pos + 2, sizeof(char *));
+		vars_move(env->vars, new_vars);
+		new_vars[pos] = ft_strdup(var);
+		new_vars[pos + 1] = NULL;
+		env->vars = new_vars;
+	}
+	if (ft_strncmp(var, "PATH=", 5) == 0)
+		env_update_path(env);
+}
+
+void	env_vars_remove(t_env *env, char *var)
+{
+	int		pos;
+	int		var_len;
+	int		i;
+
+	var_len = ft_strlen(var);
+	var[var_len] = '=';
+	pos = env_vars_find_l(env, var, var_len);
+	var[var_len] = '\0';
+	if (pos < 0 || env->vars[pos] == NULL)
+		return ;
+	free(env->vars[pos]);
+	i = pos;
+	while (env->vars[i] != NULL)
+	{
+		env->vars[i] = env->vars[i + 1];
+		++i;
+	}
+	if (ft_strcmp(var, "PATH") == 0)
+		env_update_path(env);
 }
