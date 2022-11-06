@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 20:21:57 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 20:49:49 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <string.h>
 #include <libft/libft.h>
 #include <interface/env.h>
+#include "app.h"
 #include "exec_data.h"
 #include "builtins.h"
 #include "envops.h"
@@ -30,30 +31,6 @@ t_bltin_fun	builtin_resolve(const char *progname)
 		return (builtin_unset);
 	else
 		return (NULL);
-}
-
-int	builtin_echo(t_app *app, t_exec_data *ed)
-{
-	int	i;
-	int	print_newline;
-
-	(void)app;
-	i = 1;
-	print_newline = 0;
-	if (ed->args[i] != NULL && ft_strcmp(ed->args[i], "-n") == 0)
-		++i;
-	else
-		print_newline = 1;
-	while (ed->args[i] != NULL)
-	{
-		ft_putstr_fd(ed->args[i], ed->fd_out);
-		if (ed->args[i + 1] != NULL)
-			ft_putchar_fd(' ', ed->fd_out);
-		++i;
-	}
-	if (print_newline)
-		ft_putchar_fd('\n', ed->fd_out);
-	return (0);
 }
 
 int	builtin_env(t_app *app, t_exec_data *ed)
@@ -91,7 +68,6 @@ int	builtin_export(t_app *app, t_exec_data *ed)
 		env_vars_push(app->env, ed->args[i++]);
 	return (0);
 }
-
 
 int	builtin_unset(t_app *app, t_exec_data *ed)
 {
