@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   var_valid.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 21:37:43 by fjuras           ###   ########.fr       */
+/*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
+/*   Updated: 2022/11/06 22:00:42 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft/libft.h>
-#include "builtins.h"
+#ifndef VAR_VALID_H
+# define VAR_VALID_H
 
-t_bltin_fun	builtin_resolve(const char *progname)
-{
-	if (ft_strcmp(progname, "echo") == 0)
-		return (builtin_echo);
-	else if (ft_strcmp(progname, "env") == 0)
-		return (builtin_env);
-	else if (ft_strcmp(progname, "export") == 0)
-		return (builtin_export);
-	else if (ft_strcmp(progname, "unset") == 0)
-		return (builtin_unset);
-	else
-		return (NULL);
-}
+int	var_is_valid_name(char *var);
+int	var_is_assignment(char *var);
+
+#endif

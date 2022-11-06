@@ -2,18 +2,18 @@ NAME = libexecutor.a
 
 FILES = \
 	executor exec_data childs app app_priv utils \
-	builtins lineops envops\
+	builtins lineops envops var_valid\
 
 HFILES := $(FILES:%=%.h)
 
 HFILES += ../interface/line.h
 
 FILES += \
-	app_priv2 envops2 builtins2
+	app_priv2 envops2 builtins2 builtins3
 
 OFILES := $(FILES:%=%.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fprofile-arcs -ftest-coverage
 
 INC = -I..
 
