@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 14:13:59 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/04 14:43:46 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 18:51:52 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	minish_env_init(t_env *env, char **parent_environ)
 	env_init(env, parent_environ);
 }
 
+void	minish_env_free(t_env env)
+{
+	env_free(env);
+}
+
 int	minish_execute(t_env *env, t_line line)
 {
 	t_exec_data	*exec_data_arr;
@@ -39,5 +44,6 @@ int	minish_execute(t_env *env, t_line line)
 		retval = app.builtin_last_retval;
 	app_free(&app);
 	line_free(line);
+	env->last_exit_status = retval;
 	return (retval);
 }

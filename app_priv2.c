@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 17:19:58 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 18:45:38 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	app_exec(t_app *app, t_exec_data *exec_data)
 	if (!exec_data->ready || exec_data->is_builtin)
 	{
 		if (!exec_data->ready)
-			app->builtin_last_retval = 127;
+			app->builtin_last_retval = errno;
 		else
 			app_exec_builtin(app, exec_data);
 		childs_update(&app->childs, -1);
@@ -86,7 +86,7 @@ void	app_exec(t_app *app, t_exec_data *exec_data)
 		app_exec_child_side(app, exec_data);
 	if (child < 0)
 	{
-		app->builtin_last_retval = 127;
+		app->builtin_last_retval = errno;
 		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
 	}
 	childs_update(&app->childs, child);

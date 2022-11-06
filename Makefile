@@ -9,7 +9,7 @@ HFILES := $(FILES:%=%.h)
 HFILES += ../interface/line.h
 
 FILES += \
-	app_priv2
+	app_priv2 envops2
 
 OFILES := $(FILES:%=%.o)
 

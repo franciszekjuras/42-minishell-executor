@@ -6,13 +6,23 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/04 15:39:05 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/04 23:51:13 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include <libft/libft.h>
+
+void	strarr_free(char **strarr)
+{
+	int	i;
+
+	i = 0;
+	while (strarr[i] != 0)
+		free(strarr[i++]);
+	free(strarr);
+}
 
 char	**extract_path_arr_from_env(char **environ)
 {

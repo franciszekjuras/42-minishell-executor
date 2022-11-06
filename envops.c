@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/04 14:46:41 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 16:07:36 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 #include <interface/env.h>
 #include "envops.h"
 #include "utils.h"
-
-static void	strarr_free(char **strarr)
-{
-	int	i;
-
-	i = 0;
-	while (strarr[i] != 0)
-		free(strarr[i++]);
-	free(strarr);
-}
 
 void	env_free(t_env env)
 {

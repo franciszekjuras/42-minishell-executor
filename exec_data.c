@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 18:04:13 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/02 16:56:31 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 18:23:38 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	exec_data_init(t_exec_data *exec_data)
 	exec_data->fd_in = -1;
 	exec_data->fd_out = -1;
 	exec_data->fds_end = 0;
+	exec_data->pipe_next_fd = -1;
 	exec_data->is_builtin = 0;
 	exec_data->builtin_fun = NULL;
 }

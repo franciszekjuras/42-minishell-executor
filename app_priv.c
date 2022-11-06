@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/04 14:43:06 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/06 18:49:38 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,19 @@ void	app_exec_child_side(t_app *app, t_exec_data *exec_data)
 	dup2(exec_data->fd_in, STDIN_FILENO);
 	dup2(exec_data->fd_out, STDOUT_FILENO);
 	exec_data_close_tracked_fds(exec_data);
+	if (exec_data->pipe_next_fd >= 0)
+		close(exec_data->pipe_next_fd);
 	execve(exec_data->prog_path, exec_data->args, environ);
 	ft_dprintf(2, "%s: %s: %s\n", app->name,
 		exec_data->args[0], strerror(errno));
 	exec_data_free(exec_data);
 	app_free(app);
-	exit(127);
+	exit(errno);
 }
 
 void	app_exec_builtin(t_app *app, t_exec_data *exec_data)
 {
-	app->builtin_last_retval = exec_data->builtin_fun(app->name, exec_data);
+	app->builtin_last_retval = exec_data->builtin_fun(app, exec_data);
 }
 
 int	app_pipe(t_app *app,
@@ -70,11 +72,10 @@ int	app_pipe(t_app *app,
 
 	if (pipe(pipe_fds) == 0)
 	{
-		exec_data_track_fd(exec_data_in, pipe_fds[0]);
 		exec_data_track_fd(exec_data_in, pipe_fds[1]);
 		exec_data_in->fd_out = pipe_fds[1];
+		exec_data_in->pipe_next_fd = pipe_fds[0];
 		exec_data_track_fd(exec_data_out, pipe_fds[0]);
-		exec_data_track_fd(exec_data_out, pipe_fds[1]);
 		exec_data_out->fd_in = pipe_fds[0];
 		return (0);
 	}
