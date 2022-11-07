@@ -2,7 +2,7 @@ NAME = libexecutor.a
 
 FILES = \
 	executor exec_data childs app app_priv utils \
-	builtins lineops envops var_valid\
+	builtins lineops envops var_utils\
 
 HFILES := $(FILES:%=%.h)
 

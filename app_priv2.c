@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:54:11 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 18:45:38 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/07 14:42:41 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	app_exec(t_app *app, t_exec_data *exec_data)
 	if (child < 0)
 	{
 		app->builtin_last_retval = errno;
-		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
+		ft_dprintf(2, "%s: %s: %s\n", app->name, "fork", strerror(errno));
 	}
 	childs_update(&app->childs, child);
 }

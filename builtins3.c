@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 16:24:07 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 22:10:43 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/07 14:52:38 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,17 @@
 #include "exec_data.h"
 #include "builtins.h"
 #include "envops.h"
-#include "var_valid.h"
+#include "var_utils.h"
 
 int	builtin_env(t_app *app, t_exec_data *ed)
 {
-	int	i;
-
 	if (ed->args[1] != NULL)
 	{
 		ft_dprintf(2, "%s: %s: %s: %s\n",
 			app->name, ed->args[0], ed->args[1], strerror(EINVAL));
 		return (EINVAL);
 	}
-	i = 0;
-	while (app->env->vars[i] != NULL)
-	{
-		ft_dprintf(ed->fd_out, "%s\n", app->env->vars[i]);
-		++i;
-	}
-	return (0);
-}
-
-static int	builtin_export_noarg(t_app *app)
-{
-	(void)app;
+	vars_dprintf(ed->fd_out, "%s\n", app->env->vars);
 	return (0);
 }
 
@@ -51,7 +38,10 @@ int	builtin_export(t_app *app, t_exec_data *ed)
 	int	err;
 
 	if (ed->args[1] == NULL)
-		return (builtin_export_noarg(app));
+	{
+		vars_dprintf(ed->fd_out, "export \"%s\"\n", app->env->vars);
+		return (0);
+	}
 	err = 0;
 	i = 1;
 	while (ed->args[i] != NULL)

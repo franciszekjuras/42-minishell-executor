@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 20:37:50 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/07 13:46:18 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <libft/libft.h>
 #include <interface/env.h>
 #include "envops.h"
+#include "var_utils.h"
 
 int	env_vars_find_l(t_env *env, char *var, int var_name_len)
 {
@@ -48,9 +49,7 @@ void	env_vars_push(t_env *env, char *var)
 	int		pos;
 	char	**new_vars;
 
-	pos = env_vars_find_l(env, var, ft_strchr(var, '=') - var);
-	if (pos < 0)
-		return ;
+	pos = env_vars_find_l(env, var, var_find_name_end(var) - var);
 	if (env->vars[pos] != NULL)
 	{
 		free(env->vars[pos]);

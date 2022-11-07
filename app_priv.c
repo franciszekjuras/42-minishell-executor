@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 12:22:54 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 18:49:38 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/07 14:41:53 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ char	*app_resolve_prog_path(t_app *app, char *prog)
 	char	*candidate;
 	char	**path;
 
-	if (prog == NULL)
-		return (NULL);
 	if (ft_strchr(prog, '/') != NULL)
 		return (ft_strdup(prog));
 	candidate = NULL;
@@ -81,7 +79,7 @@ int	app_pipe(t_app *app,
 	}
 	else
 	{
-		ft_dprintf(2, "%s: %s\n", app->name, strerror(errno));
+		ft_dprintf(2, "%s: %s: %s\n", app->name, "pipe", strerror(errno));
 		return (-1);
 	}
 }
@@ -91,12 +89,10 @@ int	app_open(t_app *app, t_exec_data *exec_data, char *file, int mode)
 	int	fd;
 
 	fd = -1;
-	if (mode == APP_OPEN_IN)
-		fd = open(file, O_RDONLY);
-	else if (mode == APP_OPEN_OUT)
+	if (mode == APP_OPEN_OUT)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else
-		errno = EPERM;
+	else if (mode == APP_OPEN_IN || 1)
+		fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
 		ft_dprintf(2, "%s: %s: %s\n", app->name, file, strerror(errno));

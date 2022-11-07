@@ -6,7 +6,7 @@
 /*   By: fjuras <fjuras@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:50:14 by fjuras            #+#    #+#             */
-/*   Updated: 2022/11/06 16:07:36 by fjuras           ###   ########.fr       */
+/*   Updated: 2022/11/07 13:27:06 by fjuras           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <interface/env.h>
 #include "envops.h"
 #include "utils.h"
+#include "var_utils.h"
 
 void	env_free(t_env env)
 {
@@ -28,6 +29,7 @@ static void	env_init_vars(t_env *env, char **parent_environ)
 {
 	int	vars_size;
 	int	i;
+	int	j;
 
 	vars_size = 0;
 	if (parent_environ != NULL)
@@ -37,10 +39,12 @@ static void	env_init_vars(t_env *env, char **parent_environ)
 	}
 	env->vars = ft_calloc(vars_size + 1, sizeof(char *));
 	i = 0;
-	while (i < vars_size)
+	j = 0;
+	while (j < vars_size)
 	{
-		env->vars[i] = ft_strdup(parent_environ[i]);
-		++i;
+		if (var_is_assignment(parent_environ[j]))
+			env->vars[i++] = ft_strdup(parent_environ[j]);
+		++j;
 	}
 	env->vars[i] = NULL;
 }
